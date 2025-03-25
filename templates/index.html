@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Policy Document Simplifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .upload-form {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #eee;
+            display: none;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        pre {
+            white-space: pre-wrap;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Policy Document Simplifier</h1>
+    
+    <div class="upload-form">
+        <h2>Upload Policy PDF</h2>
+        <form id="uploadForm">
+            <input type="file" name="file" accept=".pdf" required>
+            <button type="submit">Process PDF</button>
+        </form>
+    </div>
+
+    <div class="loading" id="loading">
+        Processing your PDF... Please wait...
+    </div>
+
+    <div class="result" id="result">
+        <h3>Simplified Policy Text:</h3>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const output = document.getElementById('output');
+            
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/simplify-policy', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    output.textContent = data.data;
+                    result.style.display = 'block';
+                } else {
+                    output.textContent = 'Error: ' + data.message;
+                    result.style.display = 'block';
+                }
+            } catch (error) {
+                output.textContent = 'Error: ' + error.message;
+                result.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 

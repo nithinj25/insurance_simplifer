@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Document Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .content {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: #444;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .section-content {
+            color: #666;
+            margin-left: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Policy Document Analysis</h1>
+    <div class="container">
+        <div class="card">
+            <h2>Simplified Text</h2>
+            <div class="content" id="simplified-text">
+                Loading...
+            </div>
+        </div>
+        <div class="card">
+            <h2>Analysis Report</h2>
+            <div class="content" id="analysis-report">
+                Loading...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to load and display file content
+        async function loadFileContent(filePath, elementId) {
+            try {
+                const response = await fetch(filePath);
+                const text = await response.text();
+                document.getElementById(elementId).textContent = text;
+            } catch (error) {
+                document.getElementById(elementId).textContent = `Error loading ${filePath}: ${error.message}`;
+            }
+        }
+
+        // Load both files when the page loads
+        window.addEventListener('load', () => {
+            loadFileContent('simplified_text.txt', 'simplified-text');
+            loadFileContent('analysis_report.txt', 'analysis-report');
+        });
+    </script>
+</body>
+</html> 
